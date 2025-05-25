@@ -1,0 +1,41 @@
+<%- include('../header') %>
+<div class="container">
+  <h4 class="center-align">All Orders</h4>
+  <table class="highlight responsive-table">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Address</th>
+        <th>Items</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(order => { %>
+        <tr>
+          <td><%= order.userId ? order.userId.first_name + ' ' + order.userId.last_name : 'Unknown' %></td>
+          <td>
+            <%= order.user_address %>, <%= order.user_city %>, 
+            <%= order.user_country %> - <%= order.user_zipcode %>
+          </td>
+          <td>
+            <ul>
+              <% order.items.forEach(item => { %>
+                <li>
+                  <strong><%= item.productId ? item.productId.name : 'Deleted Product' %></strong>
+                  - Qty: <%= item.qty %>
+                </li>
+              <% }) %>
+            </ul>
+          </td>
+          <td>
+            <form action="/admin/orders/<%= order._id %>/delete" method="POST">
+              <button class="btn-small red" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../footer') %>

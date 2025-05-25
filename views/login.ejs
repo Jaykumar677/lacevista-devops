@@ -1,0 +1,33 @@
+<%- include('header') %>
+
+<div class="login-page">
+  <div class="styled-login-box z-depth-2">
+    <h5>Login to <span class="lacevista-brand">LaceVista</span></h5>
+
+    <form action="/loginUser" method="POST">
+      <div class="input-field">
+        <i class="material-icons prefix">account_circle</i>
+        <input id="email" type="text" name="email" placeholder="email" required>
+      </div>
+      
+      <div class="input-field">
+        <i class="material-icons prefix">lock</i>
+        <input id="password" type="password" name="password" placeholder="password" required>
+        <div class="right-align forgot-wrapper">
+          <a href="/forgot-password" class="forgot-password-link">Forgot Password?</a>
+        </div>
+      </div>
+
+      <div class="center-align">
+        <button type="submit" class="btn orange login-main-btn">Login</button>
+      </div>
+    </form>
+
+    <div class="social-login center-align">
+      <button class="btn red lighten-1 social-btn">Continue with Google</button>
+      <a href="/signup" class="btn green darken-1 social-btn">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+<%- include('footer') %>

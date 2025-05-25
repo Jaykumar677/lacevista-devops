@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LaceVista | Home</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Page-specific stylesheet -->
+    <% if (typeof stylesheet !== 'undefined') { %>
+    <link rel="stylesheet" href="/css/<%= stylesheet %>.css" />
+    <% } %>
+  </head>
+  <body>
+    <nav class="white">
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo black-text logo-text">LaceVista</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down nav-links">
+          <li><a href="/login" class="black-text">Login</a></li>
+
+          <li><a href="/" class="black-text">Home</a></li>
+          <li><a href="/admin/orders" class="black-text">Orders</a></li>
+          <li><a href="/admin/products" class="black-text">Products</a></li>
+
+          <li class="men-mega-menu">
+            <a href="#!" class="black-text"
+              >Men <i class="material-icons right">arrow_drop_down</i></a
+            >
+          </li>
+
+          <li class="women-mega-menu">
+            <a href="#!" class="black-text"
+              >Women <i class="material-icons right">arrow_drop_down</i></a
+            >
+          </li>
+
+          <!-- Shopping cart with dynamic count -->
+          <!-- Shopping cart with dynamic count -->
+          <li class="shopping-cart">
+            <a href="/cart" class="black-text">
+              <i class="material-icons right">shopping_cart</i>
+              <span class="new badge red" data-badge-caption=""
+                ><%= typeof cartCount !== 'undefined' ? cartCount : 4 %></span
+              >
+            </a>
+          </li>
+
+          <li><a href="/about" class="black-text">About Us</a></li>
+        </ul>
+      </div>
+    </nav>
+
+<!-- New Men Info menu - test  -->
+ <div class="mega-menu-container" id="men-mega-menu">
+  <div class="container">
+    <div class="row">
+      <div class="col s12 m4">
+        <a href="/menInfoSneakers">
+          <img src="/images/men-sneaker.jpg" alt="Sneakers" class="responsive-img" />
+          <h6 class="center-align">Sneaker Shoes Info</h6>
+        </a>
+      </div>
+      <div class="col s12 m4">
+        <a href="/menInfoSports">
+          <img src="/images/sports-shoes.jpg" alt="Sports Shoes" class="responsive-img" />
+          <h6 class="center-align">Sports Shoes Info</h6>
+        </a>
+      </div>
+      <div class="col s12 m4">
+        <a href="/menInfoFormals">
+          <img src="/images/alter.jpg" alt="Formal Shoes" class="responsive-img" />
+          <h6 class="center-align">Formal Shoes Info</h6>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- <div class="mega-menu-container" id="men-mega-menu">
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m4">
+            <img
+              src="/images/men-sneaker.jpg"
+              alt="Sneakers"
+              class="responsive-img"
+            />
+            <h6 class="center-align">Sneakers</h6>
+          </div>
+          <div class="col s12 m4">
+            <img
+              src="/images/sports-shoes.jpg"
+              alt="Sports-shoes"
+              class="responsive-img"
+            />
+            <h6 class="center-align">Sports Shoes</h6>
+          </div>
+          <div class="col s12 m4">
+            <img src="/images/alter.jpg" alt="Alter" class="responsive-img" />
+            <h6 class="center-align">Alter Shoes</h6>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="mega-menu-container" id="women-mega-menu">
+      <div class="container">
+        <div class="row">
+          <div class="col s12 m4">
+            <img
+              src="/images/Sneakers.jpg"
+              alt="Sneakers"
+              class="responsive-img"
+            />
+            <h6 class="center-align">Sneakers</h6>
+          </div>
+          <div class="col s12 m4">
+            <img src="/images/heels.jpg" alt="Heels" class="responsive-img" />
+            <h6 class="center-align">Heels</h6>
+          </div>
+          <div class="col s12 m4">
+            <img src="/images/alterw.jpg" alt="Alter" class="responsive-img" />
+            <h6 class="center-align">Alter Shoes</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Page-specific JS -->
+    <% if (typeof script !== 'undefined') { %>
+    <script src="/js/<%= script %>.js"></script>
+    <% } %>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menMenuTrigger = document.querySelector(".men-mega-menu");
+        const womenMenuTrigger = document.querySelector(".women-mega-menu");
+        const menMegaMenu = document.getElementById("men-mega-menu");
+        const womenMegaMenu = document.getElementById("women-mega-menu");
+
+        menMenuTrigger.addEventListener("mouseenter", () => {
+          menMegaMenu.style.display = "block";
+          womenMegaMenu.style.display = "none";
+        });
+
+        womenMenuTrigger.addEventListener("mouseenter", () => {
+          womenMegaMenu.style.display = "block";
+          menMegaMenu.style.display = "none";
+        });
+
+        menMegaMenu.addEventListener("mouseleave", () => {
+          menMegaMenu.style.display = "none";
+        });
+
+        womenMegaMenu.addEventListener("mouseleave", () => {
+          womenMegaMenu.style.display = "none";
+        });
+
+        menMenuTrigger.addEventListener("mouseleave", () => {
+          setTimeout(() => {
+            if (!menMegaMenu.matches(":hover")) {
+              menMegaMenu.style.display = "none";
+            }
+          }, 300);
+        });
+
+        womenMenuTrigger.addEventListener("mouseleave", () => {
+          setTimeout(() => {
+            if (!womenMegaMenu.matches(":hover")) {
+              womenMegaMenu.style.display = "none";
+            }
+          }, 300);
+        });
+      });
+    </script>
+  </body>
+</html>

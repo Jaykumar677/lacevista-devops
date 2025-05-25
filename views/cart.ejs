@@ -1,0 +1,256 @@
+<%- include('header') %>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  socket.on("stockUpdate", (data) => {
+    const { productId, newStock } = data;
+    const stockElem = document.getElementById(`stock-${productId}`);
+    if (stockElem) {
+      stockElem.textContent = `${newStock} left`;
+      if (newStock < 5) {
+        stockElem.classList.add("red-text");
+      } else {
+        stockElem.classList.remove("red-text");
+      }
+
+      // Optionally disable + button if out of stock
+      const plusBtn = document.querySelector(
+        `.qty-btn[data-id="${productId}"][data-change="1"]`
+      );
+      if (
+        plusBtn &&
+        parseInt(document.getElementById(`qty-${productId}`).textContent) >=
+          newStock
+      ) {
+        plusBtn.disabled = true;
+      } else if (plusBtn) {
+        plusBtn.disabled = false;
+      }
+    }
+  });
+</script>
+
+<section class="container" style="padding-bottom: 10px">
+  <h4 class="center-align" style="margin-bottom: 20px">Your Shopping Cart</h4>
+  <div class="row" style="margin-bottom: 0">
+    <!-- Cart Items Left -->
+    <div class="col s12 m8">
+      <% if (cartItems.length === 0) { %>
+      <div
+        class="card-panel yellow lighten-4 center-align"
+        style="padding: 15px"
+      >
+        <h6>Your cart is empty!</h6>
+        <a href="/shop" class="btn blue">Continue Shopping</a>
+      </div>
+      <% } else { %> <% cartItems.forEach(item => { %>
+      <div class="card z-depth-1" style="padding: 12px; margin-bottom: 12px">
+        <div class="row valign-wrapper" style="margin-bottom: 0">
+          <div class="col s12 m4 center-align">
+            <img
+              src="<%= item.image %>"
+              alt="<%= item.name %>"
+              style="
+                max-width: 100%;
+                max-height: 180px;
+                object-fit: cover;
+                border-radius: 8px;
+              "
+            />
+          </div>
+
+          <div class="col s12 m8">
+            <h6 class="truncate" style="margin-bottom: 6px">
+              <strong><%= item.name %></strong>
+            </h6>
+            <p><strong>Price:</strong> $<%= item.price %></p>
+            <p><strong>Color:</strong> <%= item.color %></p>
+            <p><strong>Size:</strong> <%= item.size || 'N/A' %></p>
+            <p>
+              <strong>Total for item:</strong> $<span
+                class="item-total"
+                data-id="<%= item.id %>"
+                ><%= (item.price * item.quantity).toFixed(2) %></span
+              >
+            </p>
+            <p style="margin: 4px 0">
+              <strong>In Stock:</strong>
+              <span
+                id="stock-<%= item.id %>"
+                class="<%= item.stock < 5 ? 'red-text' : '' %>"
+              >
+                <%= item.stock %> left
+              </span>
+            </p>
+
+            <!-- Quantity controls -->
+            <div class="valign-wrapper" style="gap: 10px; margin: 6px 0">
+              <button
+                class="btn-flat btn-small qty-btn"
+                data-id="<%= item.id %>"
+                data-change="-1"
+              >
+                <i class="material-icons">remove</i>
+              </button>
+              <span id="qty-<%= item.id %>"><%= item.quantity %></span>
+              <button
+                class="btn-flat btn-small qty-btn"
+                data-id="<%= item.id %>"
+                data-change="1"
+              >
+                <i class="material-icons">add</i>
+              </button>
+            </div>
+
+            <!-- Remove button -->
+            <form
+              action="/cart/remove"
+              method="POST"
+              class="remove-form"
+              data-id="<%= item.id %>"
+            >
+              <input type="hidden" name="id" value="<%= item.id %>" />
+              <button class="btn red lighten-1 white-text btn-small">
+                <i class="material-icons left">delete</i> Remove
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <% }) %> <% } %>
+    </div>
+
+    <!-- Summary Right -->
+    <div class="col s12 m4">
+      <div class="card blue-grey lighten-5 z-depth-1">
+        <div class="card-content" style="padding-bottom: 8px">
+          <span class="card-title" style="margin-bottom: 10px"
+            >Order Summary</span
+          >
+          <ul class="collection" style="margin-bottom: 10px">
+            <% cartItems.forEach(item => { %>
+            <li class="collection-item">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div>
+                  <strong><%= item.name %></strong><br />
+                  <small
+                    >$<%= item.price %> x
+                    <span id="summary-qty-<%= item.id %>"
+                      ><%= item.quantity %></span
+                    ></small
+                  >
+                </div>
+                <div>
+                  $<span id="summary-total-<%= item.id %>"
+                    ><%= (item.price * item.quantity).toFixed(2) %></span
+                  >
+                </div>
+              </div>
+            </li>
+            <% }) %>
+          </ul>
+
+          <p><strong>Sales Tax:</strong> Included</p>
+          <h5 class="right-align">
+            <strong
+              >Total:
+              <span id="cart-total">$<%= totalCost.toFixed(2) %></span></strong
+            >
+          </h5>
+        </div>
+        <div class="card-action center-align">
+          <a
+            href="/checkout"
+            class="btn-large waves-effect waves-light green darken-2"
+          >
+            <i class="material-icons left">payment</i> Checkout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".qty-btn").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const productId = button.dataset.id;
+      const change = parseInt(button.dataset.change);
+      const qtySpan = document.getElementById(`qty-${productId}`);
+      const currentQty = parseInt(qtySpan.textContent);
+      const newQty = currentQty + change;
+
+      if (newQty < 1) return;
+
+      const res = await fetch("/cartUpdate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: productId, quantity: newQty }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+
+        // Update Qty in Cart UI
+        qtySpan.textContent = data.updatedQty;
+
+        // Update Qty in Summary
+        const summaryQty = document.querySelector(
+          `.summary-qty[data-id="${productId}"]`
+        );
+        if (summaryQty) summaryQty.textContent = `x${data.updatedQty}`;
+
+        // Update per item total
+        document
+          .querySelectorAll(`.item-total[data-id="${productId}"]`)
+          .forEach((el) => {
+            el.textContent = (data.updatedQty * data.price).toFixed(2);
+          });
+
+        // Update total cart value
+        //document.getElementById("cart-total").textContent = `$${data.total}`;
+
+        // Update order summary section
+        document.getElementById(`summary-qty-${productId}`).textContent =
+          newQty;
+        document.getElementById(`summary-total-${productId}`).textContent = (
+          data.price * newQty
+        ).toFixed(2);
+
+        // Update grand total
+        document.querySelector(
+          "h5 strong"
+        ).textContent = `Total: $${data.total}`;
+      } else {
+        alert("Failed to update cart.");
+      }
+    });
+  });
+
+  // Optional: Prevent page reload on remove
+  document.querySelectorAll(".remove-form").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const id = form.dataset.id;
+      const res = await fetch("/cartRemove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        location.reload(); // Or use DOM remove() and recalculate totals
+      } else {
+        alert("Failed to remove item.");
+      }
+    });
+  });
+</script>

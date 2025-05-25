@@ -1,0 +1,111 @@
+
+/* Custom Styles for Men Info - Sports Page */
+
+.hero-section {
+    background-color: #f3f3f3;
+    padding: 3rem 1rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  .hero-content h4 {
+    color: #555;
+  }
+  
+  .buttons .btn {
+    margin: 0 0.5rem;
+  }
+  
+  .section h4 {
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  
+  ul.browser-default {
+    text-align: left;
+    padding-left: 1.5rem;
+  }
+  
+  blockquote {
+    border-left: 5px solid #ffca28;
+    font-size: 1.2rem;
+    color: #444;
+    padding-left: 1rem;
+  }
+  
+  blockquote footer {
+    font-size: 1rem;
+    color: #777;
+  }
+  
+  #chat-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  #chat-header {
+    background-color: #1976d2;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  #chat-body {
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .chat-input-row {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .chat-input-row input {
+    flex: 1;
+    margin-right: 10px;
+
+  }
+
+  .when-to-wear {
+    background-color: #f5f5f5;
+    padding: 50px 0;
+  }
+  
+  .when-to-wear h4 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: bold;
+  }
+  
+  .when-to-wear .wear-item {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .when-to-wear .wear-item img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .when-to-wear .wear-item p {
+    margin-top: 10px;
+    font-weight: 500;
+  }
+  
+  

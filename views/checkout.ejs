@@ -1,0 +1,108 @@
+<%- include('header') %>
+
+<div class="container" style="margin-top: 50px; max-width: 800px">
+  <h4 class="center-align" style="margin-bottom: 40px">🛒 Checkout</h4>
+  <form
+    action="/place-order"
+    method="POST"
+    class="z-depth-2"
+    style="padding: 40px; background: #fafafa; border-radius: 10px"
+  >
+    <div class="row">
+      <div class="input-field col s12 m6">
+        <input
+          id="fname"
+          name="firstName"
+          type="text"
+          required
+          value="<%= firstName %>"
+          readonly
+        />
+        <label for="fname" class="active">First Name</label>
+      </div>
+      <div class="input-field col s12 m6">
+        <input
+          id="lname"
+          name="lastName"
+          type="text"
+          required
+          value="<%= lastName %>"
+          readonly
+        />
+        <label for="lname" class="active">Last Name</label>
+      </div>
+    </div>
+
+      <!-- Shoe Measurement Section -->
+      <div class="section">
+        <h6
+          class="blue-text text-darken-2"
+          style="font-weight: bold; margin-top: 30px"
+        >
+          Shoe Measurement
+        </h6>
+        <div class="row">
+          <div class="input-field col s12 m4">
+            <input id="length" name="length" data-cy="length" type="number" placeholder="length" step="0.1" required />
+            <!-- <label for="length">Length (cm)</label> -->
+          </div>
+          <div class="input-field col s12 m4">
+            <input id="width" name="width" type="number" placeholder="width" step="0.1" required />
+            <!-- <label for="width">Width (cm)</label> -->
+          </div>
+          <div class="input-field col s12 m4">
+            <input id="arch" name="arch" type="number" placeholder="arch" step="0.1" required />
+            <!-- <label for="arch">Shoe Arch (cm)</label> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="address" name="address" type="text" placeholder="address" required />
+          <!-- <label for="address">Street Address</label> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12 m4">
+          <input id="city" name="city" type="text" placeholder="city" required />
+          <!-- <label for="city">City</label> -->
+        </div>
+        <div class="input-field col s12 m4">
+          <input id="zip" name="zip" type="text" placeholder="zip" required />
+          <!-- <label for="zip">ZIP Code</label> -->
+        </div>
+        <div class="input-field col s12 m4">
+          <input id="country" name="country" type="text" placeholder="country" required />
+          <!-- <label for="country">Country</label> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12 m6">
+          <input id="card" name="card" type="text" placeholder="card" required />
+          <!-- <label for="card">Card Number</label> -->
+        </div>
+        <div class="input-field col s6 m3">
+          <input id="expiry" name="expiry" type="text" placeholder="expiry" required />
+          <!-- <label for="expiry">Expiry (MM/YY)</label> -->
+        </div>
+        <div class="input-field col s6 m3">
+          <input id="cvv" name="cvv" type="text" placeholder="cvv" required />
+          <!-- <label for="cvv">CVV</label> -->
+        </div>
+      </div>
+
+    <div class="center-align">
+      <button
+        type="submit"
+        class="btn orange darken-2 waves-effect waves-light"
+      >
+        Place Order
+      </button>
+    </div>
+  </form>
+</div>
+
+<%- include('footer') %>

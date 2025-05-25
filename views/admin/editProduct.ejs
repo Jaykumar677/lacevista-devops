@@ -1,0 +1,106 @@
+<%- include('../header') %>
+
+<div class="container">
+  <h4 class="center-align teal-text text-darken-2">Edit Product</h4>
+
+  <form action="/admin/products/<%= product._id %>" method="POST">
+    <div class="row">
+      <div class="input-field col s12">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="validate"
+          value="<%= product.name %>"
+          required
+        />
+        <label for="name" class="active">Product Name</label>
+      </div>
+
+      <div class="input-field col s12">
+        <textarea
+          id="description"
+          name="description"
+          class="materialize-textarea"
+          required
+        >
+<%= product.description %></textarea
+        >
+        <label for="description" class="active">Product Description</label>
+      </div>
+
+      <div class="input-field col s12 m6">
+        <input
+          type="text"
+          id="color"
+          name="color"
+          class="validate"
+          value="<%= product.color %>"
+          required
+        />
+        <label for="color" class="active">Product Color</label>
+      </div>
+
+      <div class="input-field col s12 m6">
+        <input
+          type="number"
+          id="price"
+          name="price"
+          class="validate"
+          min="0"
+          step="0.01"
+          value="<%= product.price %>"
+          required
+        />
+        <label for="price" class="active">Product Price</label>
+      </div>
+
+      <div class="input-field col s12 m6">
+        <input
+          type="number"
+          id="stock"
+          name="stock"
+          class="validate"
+          min="0"
+          step="0.01"
+          value="<%= product.stock %>"
+          required
+        />
+        <label for="stock" class="active">Product Stock</label>
+      </div>
+
+      <div class="input-field col s12 m6">
+        <input
+          type="text"
+          id="image"
+          name="image"
+          class="validate"
+          value="<%= product.image %>"
+          required
+        />
+        <label for="image" class="active">Product Image URL</label>
+      </div>
+
+
+
+      <div class="col s12 center-align">
+        <button
+          type="submit"
+          class="btn waves-effect waves-light teal darken-2"
+        >
+          Update Product
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col s12 center-align">
+      <a href="/admin/products" class="btn grey lighten-1 waves-effect"
+        >Back to Product List</a
+      >
+    </div>
+  </div>
+</div>
+
+<%- include('../footer') %>

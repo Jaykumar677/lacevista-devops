@@ -1,0 +1,56 @@
+/* Shop page */
+.shop-hero-section {
+    background: url('/images/bg3.jpg') no-repeat center center/cover;
+    height: 40vh;
+    position: relative;
+    color: white;
+    align-content: center;
+  }
+
+
+  .shop-all-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 90px 30px 90px;
+    font-size: 25px;
+  }
+
+  .all-product-list-section {
+    padding: 20px 20px 20px 20px;
+  }
+
+  .card-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidenav {
+    padding: 10px 0px 30px 10px;
+  }
+
+  .sidenav-heading {
+    margin-left: 100px;
+    align-items: centerr;
+  }
+
+  .sidenav-filter-option{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .filter-label {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .sidenav-trigger{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }

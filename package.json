@@ -1,0 +1,25 @@
+{
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.14.2",
+    "nodemailer": "^7.0.3",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "cypress": "^14.4.0",
+    "mocha": "^11.4.0"
+  },
+  "scripts": {
+    "test:e2e": "mocha Syed-Jay-E2E-Tests/*.js --timeout 5000",
+    "cytest:e2e": "cypress open"
+  }
+}

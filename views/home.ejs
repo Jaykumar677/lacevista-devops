@@ -1,0 +1,118 @@
+<%- include('header') %>
+<%- include('chatBot') %>
+
+<!-- ✅ Start wrapper that enables sticky footer -->
+<div class="page-container">
+
+  <!-- Hero Section -->
+  <section class="hero-section center-align" id="hero">
+    <div class="hero-content">
+      <h4>Roasted. Brewed. Restocked.</h4>
+      <h1>LaceVista X Classics</h1>
+      <div class="buttons">
+        <a href="/shop" class="btn amber darken-2 m-1">Shop All</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Collection Section (Products) -->
+  <section class="container section main-content">
+    <h4 class="center-align" style="margin-bottom: 2rem;">Our Collection</h4>
+    <div class="row">
+      <!-- Product Cards -->
+      <div class="col s12 m6 l3">
+        <div class="card">
+          <div class="card-image">
+            <img src="/images/shoe1.jpg" alt="Nike">
+          </div>
+          <div class="card-content center-align">
+            <span class="card-title">Nike</span>
+            <p>$ 250</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card">
+          <div class="card-image">
+            <img src="/images/shoe2.jpg" alt="New Balance">
+          </div>
+          <div class="card-content center-align">
+            <span class="card-title">New Balance</span>
+            <p>$ 180</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card">
+          <div class="card-image">
+            <img src="/images/shoe3.jpg" alt="TIRAMISU">
+          </div>
+          <div class="card-content center-align">
+            <span class="card-title">X Lows TIRAMISU</span>
+            <p>$ 170</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 l3">
+        <div class="card">
+          <div class="card-image">
+            <img src="/images/shoe4.jpg" alt="GOBLIN">
+          </div>
+          <div class="card-content center-align">
+            <span class="card-title">GOBLIN</span>
+            <p>$ 120</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner -->
+  <section class="inspiration-banner center-align">
+    <h3 class="inspiration-text">
+      <span class="highlighted-text">GOOD SHOES</span> WILL TAKE YOU TO GOOD PLACES
+    </h3>
+  </section>
+
+  <!-- Policy Info Section -->
+  <section class="policy-section">
+    <div class="container">
+      <div class="row center-align">
+        <div class="col s12 m4">
+          <i class="material-icons large">local_shipping</i>
+          <h5>Free Shipping</h5>
+          <p>Free shipping for all orders.</p>
+        </div>
+        <div class="col s12 m4">
+          <i class="material-icons large">attach_money</i>
+          <h5>Cash on Delivery</h5>
+          <p>Cash on delivery at zero cost.</p>
+        </div>
+        <div class="col s12 m4">
+          <i class="material-icons large">autorenew</i>
+          <h5>Easy Return</h5>
+          <p>Free 7-day return and exchange.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div> <!-- ✅ End .page-container -->
+
+<%- include('footer') %>
+
+<!-- ✅ Scripts -->
+<script>
+  const heroSection = document.getElementById('hero');
+  const bgImages = [
+    '/images/bg1.jpg',
+    '/images/bg2.jpg',
+    '/images/bg3.jpg'
+  ];
+  let index = 0;
+  heroSection.style.backgroundImage = `url('${bgImages[index]}')`;
+  setInterval(() => {
+    index = (index + 1) % bgImages.length;
+    heroSection.style.backgroundImage = `url('${bgImages[index]}')`;
+  }, 2000);
+</script>

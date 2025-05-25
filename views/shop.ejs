@@ -1,0 +1,131 @@
+<%- include('header') %>
+
+<title>Shop Men</title>
+<section class="shop-hero-section center-align">
+  <h2 class="about-heading">Step Forward with LaceVista</h2>
+  <p class="about-subheading">Where Comfort Meets Confidence</p>
+</section>
+
+<!-- Filter sidenav  -->
+<section class="shop-all-section shop-heading">
+  <span>Shop All</span>
+  <a href="#" data-target="slide-out" class="sidenav-trigger"
+    ><i class="material-icons">menu</i>
+    <p>Filter</p></a
+  >
+
+  <form action="/shop" method="GET" id="filter-form">
+    <ul id="slide-out" class="sidenav">
+      <li><h4 class="sidenav-heading">Filter</h4></li>
+      <li><div class="divider"></div></li>
+      <div class="sidenav-filter-option">
+        <!-- Color Filter -->
+        <div class="input-field col s12 m6">
+          <span class="filter-label">Color</span>
+          <select
+            id="color-filter"
+            name="color"
+            onchange="document.getElementById('filter-form').submit();"
+          >
+            <option value="">All</option>
+            <option value="black" <%= selectedColor === 'black' ? 'selected' : '' %>>Black</option>
+            <option value="white" <%= selectedColor === 'white' ? 'selected' : '' %>>White</option>
+            <option value="red" <%= selectedColor === 'red' ? 'selected' : '' %>>Red</option>
+            <option value="blue" <%= selectedColor === 'blue' ? 'selected' : '' %>>Blue</option>
+            <option value="green" <%= selectedColor === 'green' ? 'selected' : '' %>>Green</option>
+          </select>
+        </div>
+
+        <!-- Price Filter -->
+        <div class="col s12 m6">
+          <span class="filter-label">Max Price ($)</span>
+          <p class="range-field" style="margin-bottom: 0">
+            <input
+              type="range"
+              id="price"
+              name="maxPrice"
+              min="0"
+              max="499"
+              value="<%= typeof maxPrice !== 'undefined' ? maxPrice : 499 %>"
+              oninput="updatePriceValue(this.value);"
+              onchange="document.getElementById('filter-form').submit();"
+            />
+          </p>
+          <div
+            class="flex"
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 0.9rem;
+            "
+          >
+            <span>$0</span>
+            <span id="price-value"
+              >$<%= typeof maxPrice !== 'undefined' ? maxPrice : 499 %></span
+            >
+            <span>$499</span>
+          </div>
+        </div>
+      </div>
+    </ul>
+  </form>
+
+  <script>
+    function updatePriceValue(value) {
+      document.getElementById("price-value").innerText = "$" + value;
+    }
+  </script>
+</section>
+<div class="divider"></div>
+
+<section class="all-product-list-section">
+  <div class="row">
+    <% productList.forEach(item => { %>
+    <div class="col s12 m4">
+      <div class="card product-card" data-product-id="<%= item._id %>">
+        <div class="card-image">
+          <img src="<%= item.image %>" alt="<%= item.name %>" />
+          <span class="card-title"><%= item.name %></span>
+        </div>
+        <div class="card-content">
+          <p><%= item.description %></p>
+        </div>
+        <div class="card-action">
+          <p>$<%= item.price %></p>
+          <div><span>Color:</span> <%= item.color %></div>
+          <p>All Sizes Available</p>
+
+          <a
+            class="btn-small waves-effect waves-light add-to-cart" data-cy="add-to-cart-button"
+            data-id="<%= item._id %>"
+          >
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".add-to-cart").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const productId = btn.getAttribute("data-id");
+      const res = await fetch("/cartAdd", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        M.toast({ html: "Added to cart!" });
+      } else {
+        M.toast({ html: "Error: " + data.error });
+      }
+    });
+  });
+</script>

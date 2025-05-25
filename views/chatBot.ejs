@@ -1,0 +1,48 @@
+<div id="chat-widget" class="chatbot-popup z-depth-3">
+    <!-- ChatBot Header  -->
+    <div class="chat-header">
+        <div class="header-info">
+            <img class="chatbot-logo" src="/images/chatbot.png" width="50" height="50" />
+            <p class="chatbot-logo-text">Chatbot</p>
+        </div>
+        <button id="close-chatbot" onclick="toggleChat()" class="material-symbols-rounded">
+            <i class="material-icons">arrow_drop_down</i>
+        </button>
+    </div>
+
+    <!--Chatbot main container-->
+    <div id="chat-main-container" style="display: none">
+        <!-- ChatBot Body  -->
+        <div class="chat-body">
+            <div class="message bot-message">
+                <img class="bot-avatar" src="/images/chatbot.png" width="50" height="50" />
+                <div class="message-text">
+                    Hey there <br />
+                    How can I help you today?
+                </div>
+            </div>
+        </div>
+
+        <!-- ChatBot Footer  -->
+        <div class="chat-footer">
+            <form action="#" class="chat-form">
+                <textarea placeholder="Message...." class="message-input" id="message-input-id" required></textarea>
+                <div class="chat-controls">
+                    <div class="file-upload-wrapper">
+                        <input type="file" accept="images/*" id="file-input" hidden>
+                        <img src="#">
+                        <button type="button" id="file-upload" class="material-symbols-rounded">
+                            <i class="material-icons">attach_file</i>
+                        </button>
+                    </div>
+                    <button type="button" id="file-cancel">
+                        <i class="material-icons">close</i>
+                    </button>
+                    <button type="submit" id="send-message">
+                        <i class="material-icons">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
