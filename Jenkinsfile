@@ -2,9 +2,9 @@ pipeline {
   agent any
 
   environment {
-    SONAR_TOKEN = credentials('SONAR_TOKEN')
+    SONAR_TOKEN = credentials('SONAR_TOKEN_7_3HD')  // Optional: if used directly
     SNYK_TOKEN = credentials('SNYK_TOKEN')
-    DOCKER_IMAGE = "jaykumar677/task8.2hd-lacevista"
+    DOCKER_IMAGE = "jaykumar677/task7.3hd-lacevista"
   }
 
   stages {
@@ -26,7 +26,7 @@ pipeline {
     stage('Code Quality') {
       steps {
         echo '🔍 Running SonarCloud analysis...'
-        withSonarQubeEnv('SonarQubeServer') {
+        withSonarQubeEnv(credentialsId: 'SONAR_TOKEN_7_3HD', installationName: 'SonarQubeServer') {
           sh 'sonar-scanner'
         }
       }
@@ -49,8 +49,8 @@ pipeline {
     stage('Release to Prod') {
       steps {
         echo '📦 Releasing tagged version...'
-        sh 'git tag task8.2hd-v1.0.$BUILD_NUMBER'
-        sh 'git push origin task8.2hd-v1.0.$BUILD_NUMBER'
+        sh 'git tag task7.3hd-v1.0.$BUILD_NUMBER'
+        sh 'git push origin task7.3hd-v1.0.$BUILD_NUMBER'
       }
     }
 
@@ -64,7 +64,7 @@ pipeline {
 
   post {
     always {
-      echo '✅ Pipeline task8.2hd-lacevista completed.'
+      echo '✅ Pipeline task7.3hd-lacevista completed.'
     }
   }
 }
