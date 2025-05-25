@@ -19,13 +19,13 @@ pipeline {
   steps {
     echo '🧪 Starting the app and running Cypress tests...'
 
-    // Start your app in the background
+    // Start the app in background
     bat 'start /B node app.js'
 
-    // Give the app a few seconds to boot (adjust if needed)
-    bat 'timeout /T 10'
+    // Wait for the app to be ready
+    bat 'ping -n 10 127.0.0.1 > nul'
 
-    // Install dependencies and run Cypress
+    // Install dependencies and run Cypress tests
     bat 'npm install'
     bat 'npx cypress run --browser chrome --headless'
   }
