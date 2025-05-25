@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    SONAR_TOKEN = credentials('SONAR_TOKEN')      // Add this in Jenkins credentials
+    SONAR_TOKEN = credentials('SONAR_TOKEN_DevOps')      // Add this in Jenkins credentials
     SNYK_TOKEN = credentials('SNYK_TOKEN')        // Add this in Jenkins credentials
   }
 
