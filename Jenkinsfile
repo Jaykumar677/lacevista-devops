@@ -16,12 +16,21 @@ pipeline {
     }
 
     stage('Test') {
-      steps {
-        echo '🧪 Running Cypress tests...'
-        bat 'npm install'
-        bat 'npx cypress run --browser chrome --headless'
-      }
-    }
+  steps {
+    echo '🧪 Starting the app and running Cypress tests...'
+
+    // Start your app in the background
+    bat 'start /B node app.js'
+
+    // Give the app a few seconds to boot (adjust if needed)
+    bat 'timeout /T 10'
+
+    // Install dependencies and run Cypress
+    bat 'npm install'
+    bat 'npx cypress run --browser chrome --headless'
+  }
+}
+
 
     stage('Code Quality') {
       steps {
