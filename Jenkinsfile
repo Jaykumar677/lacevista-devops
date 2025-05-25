@@ -20,8 +20,8 @@ pipeline {
     echo '🧪 Starting the app and running Cypress tests...'
 
     // Load environment variables
-    bat 'type .env >> env.bat'
-    bat 'call env.bat'
+    bat 'npm install'
+bat 'npx cypress run --browser chrome --headless'
 
     // Start the app in background
     bat 'start /B node app.js'
