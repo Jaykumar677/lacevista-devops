@@ -18,12 +18,23 @@ pipeline {
     stage('Test') {
   steps {
     echo '🧪 Starting the app and running Cypress tests...'
+
+    // Load environment variables
+    bat 'type .env >> env.bat'
+    bat 'call env.bat'
+
+    // Start the app in background
     bat 'start /B node app.js'
-    bat 'timeout /t 10'
+
+    // Wait for the app to start
+    bat 'ping -n 10 127.0.0.1 > nul'
+
+    // Run Cypress tests
     bat 'npm install'
-    bat 'npx cypress run --browser chrome --headless || exit /b 0'
+    bat 'npx cypress run --browser chrome --headless'
   }
 }
+
 
 
 

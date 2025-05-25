@@ -1,24 +1,27 @@
+// Load environment variables
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const app = express();
+const session = require('express-session');
 const path = require('path');
 
-const http = require('http').createServer(app); // Create HTTP server manually
+const app = express();
+const http = require('http').createServer(app);
 
 // Route imports
 const pagesRoutes = require('./routes/pagesRoutes');
 const authRoutes = require('./routes/authRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const cartRoutes = require('./routes/cartRoutes');
-const session = require('express-session'); // session
-const cartController = require('./controllers/cartController');
 const orderRoutes = require('./routes/orderRoutes');
-const router = express.Router();
-const checkoutRoutes = require('./routes/checkout'); // ✅ NEW checkout routeconst checkoutRoutes = require('./routes/checkout'); // ✅ NEW checkout routeconst http = require('http');
+const checkoutRoutes = require('./routes/checkout');
+const cartController = require('./controllers/cartController');
 
+// Session setup
 app.use(session({
-  secret: 'LaceVista@2025',
+  secret: process.env.JWT_SECRET || 'fallbackSecret',
   resave: false,
   saveUninitialized: true,
   cookie: { secure: false }
@@ -31,33 +34,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // View engine setup
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.set(express.static('public'));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/LaceVista', {
-}).then(() => console.log('MongoDB Connected'))
-  .catch(err => console.error(err));
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/LaceVista', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+  .then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
-// Dummy user (replace in real auth)
-// app.use((req, res, next) => {
-//   req.user = { _id: '663df0ea3b42cdcdf204f8a4' }; // your test user ID
-//   next();
-// });
-
-router.get('/', cartController.getHomePage); // Home page route
-// module.exports = router;
-
-// Middleware to inject cart count globally
+// Global cart count middleware
 app.use(async (req, res, next) => {
-  if (!req.user) {
+  if (!req.session.userId) {
     res.locals.cartCount = 0;
     return next();
   }
 
   try {
+    const Cart = require('./models/cart'); // Make sure to require Cart model
     const cart = await Cart.findOne({ userId: req.session.userId });
     res.locals.cartCount = cart
       ? cart.items.reduce((total, item) => total + item.qty, 0)
@@ -69,16 +66,15 @@ app.use(async (req, res, next) => {
   next();
 });
 
-
-// === Mount Routes ===
+// Route mounts
 app.use('/', authRoutes);
 app.use('/', shopRoutes);
 app.use('/', cartRoutes);
 app.use('/', pagesRoutes);
 app.use('/', orderRoutes);
-app.use('/', checkoutRoutes); // ✅ Mount the new checkout route
+app.use('/', checkoutRoutes);
 
-// === Start Server ===
+// Start server
 if (process.env.NODE_ENV !== 'test') {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
@@ -86,6 +82,4 @@ if (process.env.NODE_ENV !== 'test') {
   });
 }
 
-// At bottom of app.js
 module.exports = app;
-
