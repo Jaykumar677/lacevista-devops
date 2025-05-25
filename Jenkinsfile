@@ -16,27 +16,22 @@ pipeline {
     }
 
     stage('Test') {
-  steps {
-    echo '🧪 Starting the app and running Cypress tests...'
+      steps {
+        echo '🧪 Running Mocha + Chai tests...'
 
-    // Load environment variables
-    bat 'npm install'
-bat 'npx cypress run --browser chrome --headless'
+        // Install dependencies
+        bat 'npm install'
 
-    // Start the app in background
-    bat 'start /B node app.js'
+        // Start the app in the background
+        bat 'start /B node app.js'
 
-    // Wait for the app to start
-    bat 'ping -n 10 127.0.0.1 > nul'
+        // Wait for server to boot
+        bat 'ping -n 10 127.0.0.1 > nul'
 
-    // Run Cypress tests
-    bat 'npm install'
-    bat 'npx cypress run --browser chrome --headless'
-  }
-}
-
-
-
+        // Run Mocha tests (which will use app.js)
+        bat 'npm test'
+      }
+    }
 
     stage('Code Quality') {
       steps {

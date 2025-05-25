@@ -15,11 +15,11 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
-    "cypress": "^14.4.0",
-    "mocha": "^11.4.0"
+    "mocha": "^11.4.0",
+    "mocha-junit-reporter": "^2.2.0"
   },
   "scripts": {
-    "test:e2e": "mocha Syed-Jay-E2E-Tests/*.js --timeout 5000",
+    "test": "mocha Syed-Jay-E2E-Tests/*.js --timeout 5000 --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results/results.xml",
     "cytest:e2e": "cypress open"
   }
 }
