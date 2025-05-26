@@ -60,15 +60,20 @@ pipeline {
       }
     }
 
-    stage('Release') {
-  steps {
-    echo '🏷️ Tagging release version...'
-    bat 'git config user.email "jai.jk739@gmail.com"'
-    bat 'git config user.name "JayKumar677"'
-    bat 'git tag -a v1.0.%BUILD_NUMBER% -m "Release v1.0.%BUILD_NUMBER%"'
-    bat 'git push origin v1.0.%BUILD_NUMBER%'
-  }
-}
+        stage('Release') {
+      steps {
+        echo '🏷️ Tagging release version...'
+        bat 'git config user.email "jai.jk739@gmail.com"'
+        bat 'git config user.name "JayKumar677"'
+        bat 'git tag -a v1.0.%BUILD_NUMBER% -m "Release v1.0.%BUILD_NUMBER%"'
+
+        script {
+          withCredentials([string(credentialsId: 'GIT_TOKEN', variable: 'TOKEN')]) {
+            bat 'git push https://%TOKEN%@github.com/Jaykumar677/lacevista-devops.git --tags'
+          }
+        }
+      }
+    }
 
 
   }
