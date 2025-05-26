@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.003" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-05-25T23:15:08" tests="0" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Sample Test" timestamp="2025-05-25T23:15:08" tests="1" file="C:\Users\jaima\OneDrive\Desktop\SIT725-APSE\SIT725\lacevista-devops\test\basic.test.js" time="0.002" failures="0">
+    <testcase name="Sample Test should add numbers correctly" time="0.000" classname="should add numbers correctly">
+    </testcase>
+  </testsuite>
+</testsuites>

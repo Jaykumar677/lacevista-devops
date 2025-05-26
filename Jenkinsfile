@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   environment {
-    SONAR_TOKEN = credentials('SONAR_TOKEN_DevOps')      // Add this in Jenkins credentials
-    SNYK_TOKEN = credentials('SNYK_TOKEN')        // Add this in Jenkins credentials
+    SONAR_TOKEN = credentials('SONAR_TOKEN_DevOps')      // Jenkins > Credentials
+    SNYK_TOKEN = credentials('SNYK_TOKEN')               // Jenkins > Credentials
   }
 
   stages {
@@ -29,7 +29,7 @@ pipeline {
         sh '''
           sonar-scanner \
             -Dsonar.projectKey=lacevista \
-            -Dsonar.organization=your_org \
+            -Dsonar.organization=jaykumar677 \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=$SONAR_TOKEN
         '''
@@ -58,12 +58,6 @@ pipeline {
         sh 'git config user.name "Your Name"'
         sh 'git tag -a v1.0.${BUILD_NUMBER} -m "Release v1.0.${BUILD_NUMBER}"'
         sh 'git push origin v1.0.${BUILD_NUMBER}'
-      }
-    }
-
-    stage('Monitoring') {
-      steps {
-        echo '📈 Monitoring is handled via Datadog Agent (already integrated in docker-compose).'
       }
     }
 
