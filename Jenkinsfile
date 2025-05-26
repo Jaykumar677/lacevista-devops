@@ -45,12 +45,13 @@ pipeline {
 
 
     stage('Security') {
-      steps {
-        echo '🛡️ Running Snyk Security Scan...'
-        bat bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" auth %SNYK_TOKEN%'
-        bat bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" test || exit 0'
-      }
-    }
+  steps {
+    echo '🛡️ Running Snyk Security Scan...'
+    bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" auth %SNYK_TOKEN%'
+    bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" test || exit 0'
+  }
+}
+
 
     stage('Deploy') {
       steps {
