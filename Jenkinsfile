@@ -24,17 +24,21 @@ pipeline {
     }
 
     stage('Code Quality') {
-      steps {
-        echo '📏 Running SonarCloud Scanner...'
-        bat """
-          sonar-scanner ^
-            -Dsonar.projectKey=lacevista ^
-            -Dsonar.organization=jaykumar677 ^
-            -Dsonar.host.url=https://sonarcloud.io ^
-            -Dsonar.login=%SONAR_TOKEN%
-        """
-      }
-    }
+  steps {
+    echo '📏 Running SonarCloud Scanner in Docker...'
+    bat """
+      docker run --rm -e SONAR_TOKEN=%SONAR_TOKEN% ^
+        -v "%cd%:/usr/src" ^
+        sonarsource/sonar-scanner-cli ^
+        -Dsonar.projectKey=lacevista ^
+        -Dsonar.organization=jaykumar677 ^
+        -Dsonar.sources=. ^
+        -Dsonar.host.url=https://sonarcloud.io ^
+        -Dsonar.login=%SONAR_TOKEN%
+    """
+  }
+}
+
 
     stage('Security') {
       steps {
