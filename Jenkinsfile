@@ -9,11 +9,11 @@ pipeline {
   stages {
 
     stage('Build') {
-      steps {
-        echo '🔨 Building Docker image...'
-        bat 'docker build -t lacevista .'
-      }
-    }
+  steps {
+    echo '🔨 Building Docker image...'
+    bat 'set DOCKER_BUILDKIT=0 && docker build --no-cache -t lacevista .'
+  }
+}
 
     stage('Test') {
       steps {
