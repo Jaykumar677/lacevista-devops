@@ -70,6 +70,24 @@ pipeline {
             bat "git remote set-url origin ${remoteUrl}"
             timeout(time: 2, unit: 'MINUTES') {
               bat "git push origin --tags"
+
+
+              // GitHub Release creation using curl
+              def tagName = "v1.0.${env.BUILD_NUMBER}"
+              def json = """{
+                \"tag_name\": \"${tagName}\",
+                \"target_commitish\": \"main\",
+                \"name\": \"Release ${tagName}\",
+                \"body\": \"Auto-generated release from Jenkins\",
+                \"draft\": false,
+                \"prerelease\": false
+              }"""
+
+              writeFile file: 'release.json', text: json
+              bat "curl -X POST https://api.github.com/repos/Jaykumar677/lacevista-devops/releases ^
+                -H \"Authorization: token ${TOKEN}\" ^
+                -H \"Content-Type: application/json\" ^
+                --data @release.json"
             }
           }
         }
