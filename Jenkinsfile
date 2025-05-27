@@ -68,7 +68,9 @@ pipeline {
           withCredentials([string(credentialsId: 'release-lacevista', variable: 'TOKEN')]) {
             def remoteUrl = "https://${TOKEN}@github.com/Jaykumar677/lacevista-devops.git"
             bat "git remote set-url origin ${remoteUrl}"
-            bat "git push origin --tags"
+            timeout(time: 2, unit: 'MINUTES') {
+              bat "git push origin --tags"
+            }
           }
         }
       }
