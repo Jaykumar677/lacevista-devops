@@ -9,15 +9,14 @@ pipeline {
   stages {
 
     stage('Build') {
-  steps {
-    echo '🔨 Building Docker image...'
-    bat '''
-      set DOCKER_BUILDKIT=0
-      docker build --no-cache -t lacevista .
-    '''
-  }
-}
-
+      steps {
+        echo '🔨 Building Docker image...'
+        bat '''
+          set DOCKER_BUILDKIT=0
+          docker build --no-cache -t lacevista .
+        '''
+      }
+    }
 
     stage('Test') {
       steps {
@@ -28,30 +27,28 @@ pipeline {
     }
 
     stage('Code Quality') {
-  steps {
-    echo '📏 Running SonarCloud Scanner in Docker...'
-    bat """
-      docker run --rm -e SONAR_TOKEN=%SONAR_TOKEN% ^
-        -v "%cd%:/usr/src" ^
-        sonarsource/sonar-scanner-cli ^
-        -Dsonar.projectKey=lacevista ^
-        -Dsonar.organization=jaykumar677 ^
-        -Dsonar.sources=. ^
-        -Dsonar.host.url=https://sonarcloud.io ^
-        -Dsonar.login=%SONAR_TOKEN%
-    """
-  }
-}
-
+      steps {
+        echo '📏 Running SonarCloud Scanner in Docker...'
+        bat """
+          docker run --rm -e SONAR_TOKEN=%SONAR_TOKEN% ^
+            -v "%cd%:/usr/src" ^
+            sonarsource/sonar-scanner-cli ^
+            -Dsonar.projectKey=lacevista ^
+            -Dsonar.organization=jaykumar677 ^
+            -Dsonar.sources=. ^
+            -Dsonar.host.url=https://sonarcloud.io ^
+            -Dsonar.login=%SONAR_TOKEN%
+        """
+      }
+    }
 
     stage('Security') {
-  steps {
-    echo '🛡️ Running Snyk Security Scan...'
-    bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" auth %SNYK_TOKEN%'
-    bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" test || exit 0'
-  }
-}
-
+      steps {
+        echo '🛡️ Running Snyk Security Scan...'
+        bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" auth %SNYK_TOKEN%'
+        bat '"C:\\Users\\jaima\\AppData\\Roaming\\npm\\snyk.cmd" test || exit 0'
+      }
+    }
 
     stage('Deploy') {
       steps {
@@ -60,7 +57,7 @@ pipeline {
       }
     }
 
-        stage('Release') {
+    stage('Release') {
       steps {
         echo '🏷️ Tagging release version...'
         bat 'git config user.email "jai.jk739@gmail.com"'
@@ -68,14 +65,14 @@ pipeline {
         bat 'git tag -a v1.0.%BUILD_NUMBER% -m "Release v1.0.%BUILD_NUMBER%"'
 
         script {
-          withCredentials([string(credentialsId: 'GIT_TOKEN', variable: 'TOKEN')]) {
-            bat 'git push https://%TOKEN%@github.com/Jaykumar677/lacevista-devops.git --tags'
+          withCredentials([string(credentialsId: 'release-lacevista', variable: 'TOKEN')]) {
+            def remoteUrl = "https://${TOKEN}@github.com/Jaykumar677/lacevista-devops.git"
+            bat "git remote set-url origin ${remoteUrl}"
+            bat "git push origin --tags"
           }
         }
       }
     }
-
-
   }
 
   post {
